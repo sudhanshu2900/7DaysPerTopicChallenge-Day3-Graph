@@ -1,0 +1,70 @@
+PROBLEM: Given N cities, some of them have roads in between them. Geek is in city 1. The task is to find the minimum number of roads needed to construct 
+         so that geek can visit any city from any other city.
+
+         Note:
+         1. All the cities are numbered from 1 to N.
+         2. No two cities have multiple roads.
+         3. No city has self road
+         
+         Input:
+         1. The first line of the input contains a single integer T denoting the number of test cases. The description of T test cases follows.
+         2. The first line of each test case contains two space_separated integers N and M.
+         3. Next M lines contain two space-separated integers u and v, represents a road between cities u and v.
+         
+         
+         
+SOLUTION:
+
+
+    #include<bits/stdc++.h>
+    using namespace std;
+
+
+    void isConnectedPaths(vector<int> mg[], int visited[], int n, int src){
+        visited[src] = 1;
+        for(auto node: mg[src]){
+            if(visited[node]==0)
+                isConnectedPaths(mg, visited, n, node);
+        }
+    }
+    
+    int geekAndCity(vector<int> mg[], int n){
+        int visited[n], cntComponent = 0;
+        memset(visited, 0, sizeof(visited));
+        
+        for(int i=0; i<n; i++){
+            if(visited[i]==0){
+                isConnectedPaths(mg, visited, n, i);
+                cntComponent++;
+            }
+        }
+        return cntComponent-1;
+    }
+
+
+    int main(){
+
+        int t;
+        cin>>t;
+
+        while(t--){
+            int n,m;
+            cin>>n>>m;
+            vector<int> mg[n];
+
+            for(int i=0; i<m; i++){
+                int firstNode, secondNode;
+                cin>>firstNode>>secondNode;
+
+                mg[firstNode-1].push_back(secondNode-1);
+                mg[secondNode-1].push_back(firstNode-1);
+            }
+            cout<<geekAndCity(mg, n)<<endl;
+        }
+        return 0;
+    }
+ 
+ 
+ 
+ 
+ 
