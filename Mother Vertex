@@ -1,0 +1,36 @@
+PORBLEM: Given a Directed Graph, find a Mother Vertex in the Graph (if present). A Mother Vertex is a vertex through which we can reach all the other vertices 
+         of the Graph.
+        
+        
+
+SOLUTION:
+
+
+void DFS(int src, int visited[], vector<int> adj[], int &cnt){
+        visited[src] = 1;
+        cnt++;
+        for(auto node: adj[src]){
+            if(visited[node] == 0)
+                DFS(node, visited, adj, cnt);
+        }
+    }
+    
+   
+	int findMotherVertex(int V, vector<int>adj[])
+	{
+	    int visited[V], cnt=0;
+	    
+	    for(int i=0; i<V; i++){
+	        memset(visited, 0, sizeof(visited));
+	        DFS(i, visited, adj, cnt);
+	        
+	        if(cnt==V)return i;
+	        cnt=0;
+	    }
+	    
+	    return -1;
+	}
+  
+  
+  
+  
